@@ -11,7 +11,8 @@ class QuickStockList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            stocks: stocksList.stocks
+            stocks: stocksList.stocks,
+            time: ''
         };
         this.addStock = this.addStock.bind(this);
         this.removeStock = this.removeStock.bind(this);
@@ -39,14 +40,6 @@ class QuickStockList extends Component {
             stocks: [...this.state.stocks, newStock]
         });
     }
-    /*updateStocks(stockNames){
-    	const stockListing = this.state.stocks;
-    	axios.get('https://www.alphavantage.co/query?function=BATCH_STOCK_QUOTES&symbols=' + stocksList.stocks + '&apikey=' + stocksList.apiKey)
-            .then(function(response) {
-            	console.log(stockNames);
-                console.log(response);
-            });
-    }*/
     removeStock(removeStock) {
         const filteredStocks = this.state.stocks.filter(name => {
             return name !== removeStock;
@@ -62,7 +55,7 @@ class QuickStockList extends Component {
             }
             name = {
                 name
-            }
+            }          
             removeStock = {
                 this.removeStock
             }             

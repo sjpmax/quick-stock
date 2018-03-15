@@ -3,37 +3,53 @@ import React, {
 } from 'react';
 import './quick-stock.css';
 
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../node_modules/bootstrap/dist/js/bootstrap.min.js';
 import axios from 'axios';
 import stocksList from './config.json';
+import $ from 'jquery'; 
+
+
 
 class QuickStock extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            stockPrice: '0.00'
+            stockPrice: "loading",
+             time: '',
+             openPrice: 0
         };
         this.removeStock = this.removeStock.bind(this);
         this.updateStocks = this.updateStocks.bind(this);
     }
-    //componentDidMount(){setInterval(this.updateStocks,60000);}
-    updateStocks(stockName) {
+    componentDidMount(){
+      this.updateStocks();
+      setInterval(this.updateStocks,60000);
+    $(function () {
+  $('[data-toggle="popover"]').popover()
+})}
+    updateStocks() {
         //const stockListing = this.state.stocks;
         let currentComponent = this;
-        axios.get('https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&outputsize=compact&symbol=' + stockName + '&interval=1min&apikey=' + stocksList.apiKey)
+          var stockName = currentComponent.props.name;        
+        axios.get('https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=' + stockName + '&interval=1min&apikey=' + stocksList.apiKey)
             .then(function(response) {
                 console.log(stockName);
 
                 var stockInfo = response.data["Time Series (1min)"]
                 for (var key in stockInfo) {
-                    var firstone = stockInfo[key];
+                    var firstOne = stockInfo[key];
+                    var thisTime = key.substring(key.length - 8);
                     break;
                 }
                 var curPrice = '';
-                curPrice = firstone["4. close"];
-                console.log("price " + curPrice);
+                curPrice = firstOne["4. close"];
+                console.log("price " + curPrice + " at " + thisTime);
                 if (curPrice !== undefined)
                     currentComponent.setState({
-                        stockPrice: curPrice
+                        stockPrice: curPrice,
+                        time : "Last refresh: " +thisTime,
+                        openPrice : "Opened at $" +firstOne["1. open"]
                     });
 
             })
@@ -46,16 +62,11 @@ class QuickStock extends Component {
     }
     render() {
         return ( <
-            div className = "QuickStock" > {
-                this.props.name
-            }: {
+            div className = "QuickStock" > {this.props.name}: <a data-toggle="popover" data-trigger="hover" title= {this.props.name} data-content={this.state.time}>{
                 this.state.stockPrice
-            }!{
-                this.updateStocks(this.props.name)
-            } <
-            button onClick = {
-                this.removeStock
-            } > Remove Me! < /button> < /
+            }</a>!
+            <button type="button" className="btn btn-danger" onClick = {this.removeStock}>X</button>
+           < /
             div >
         )
     };
