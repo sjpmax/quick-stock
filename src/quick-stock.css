@@ -1,8 +1,11 @@
 .quickStock{
-  border: 2px solid black;
+  border: 2px solid #100B26;
   text-align: center;
   background: #f5f5f5;
   color: #333;
   margin: 20px;
   padding: 20px;
 }
+
+.goodGreen{color: #228B22;}
+.badRed{color: #F00;}

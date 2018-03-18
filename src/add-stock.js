@@ -7,6 +7,7 @@ class AddStock extends Component {
     this.state = { stockName: '' };
     this.handleUpdate = this.handleUpdate.bind(this);
     this.addStock = this.addStock.bind(this);
+    this.keyPress = this.keyPress.bind(this);
   }
   handleUpdate(event) {
     this.setState({ stockName: event.target.value });
@@ -15,12 +16,19 @@ class AddStock extends Component {
   this.props.addStock(this.state.stockName);
   this.setState({ stockName: '' });
 }
+keyPress(e){
+      if(e.keyCode === 13){
+        //why isn't this.addStock working? it just passes by the code.
+        this.props.addStock(this.state.stockName);
+        this.setState({ stockName: '' });
+      }
+   }
   render() {
     return (
       <div className="AddStock">      
-        <input type="text" onChange={this.handleUpdate} value={this.state.stockName}/>
+        <input type="text" onChange={this.handleUpdate} value={this.state.stockName} onKeyDown={this.keyPress}/>
         &nbsp;&nbsp;
-        <button onClick={this.addStock}>Add</button>
+        <button type="button" className="btn btn-info" onClick={this.addStock}>Add</button>
       </div>
     );
   }

@@ -4,22 +4,28 @@ import React, {
 import './quick-stock-list.css';
 import QuickStock from './quick-stock';
 import AddStock from './add-stock';
-import stocksList from './config.json';
-
+import editJsonFile from 'edit-json-file';
 
 class QuickStockList extends Component {
     constructor(props) {
+ let stocksList = JSON.parse(localStorage.getItem("stockList"));
+    	if(stocksList == null){
+ stocksList =  ["ATVI","SPWR","TEAM"];
+ localStorage.setItem("stockList", JSON.stringify(stocksList));	
+}
         super(props);
         this.state = {
-            stocks: stocksList.stocks,
+            stocks: stocksList,
             time: ''
         };
         this.addStock = this.addStock.bind(this);
         this.removeStock = this.removeStock.bind(this);
-        /*this.updateStocks = this.updateStocks.bind(this);*/
     }
 
-    /*componentDidMount(){setInterval(this.updateStocks,60000);}*/
+    componentDidUpdate(){
+    	localStorage.setItem("stockList", JSON.stringify(this.state.stocks));	
+    }
+
 
     render() {
         return ( <
@@ -47,7 +53,10 @@ class QuickStockList extends Component {
         this.setState({
             stocks: filteredStocks
         });
+
     }
+
+    
     renderStocks() {
         return this.state.stocks.map(name => ( <
             QuickStock key = {

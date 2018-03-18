@@ -1,6 +1,7 @@
 .QuickStockList {
+	width: 350px;
   margin: 20px;
   padding: 20px;
-  border: 2px solid #00D8FF;
-  background: #DDEEFF;
+  border: 2px solid #100B26;
+  background: #FFF;
 }
