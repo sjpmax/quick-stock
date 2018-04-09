@@ -1,9 +1,13 @@
 .AddStock {
   margin: 5px;
   padding: 5px;
-  border: 2px solid #17a2b8;
-  background: #FFB45F;
+  border: 2px solid #001A47;
+  background: #CEEAF3;
   text-align: center;
 }
 
 .AddStock input{width: 70px;}
+
+.AddStock button {color: #fff;
+    background-color: #001A47;
+    border-color: #17a2b8;}

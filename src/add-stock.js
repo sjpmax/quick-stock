@@ -3,6 +3,8 @@ import React, {
 } from 'react';
 import './add-stock.css';
 
+import AutoInput from './AutoInput';
+
 class AddStock extends Component {
     constructor(props) {
         super(props);
@@ -11,7 +13,7 @@ class AddStock extends Component {
         };
         this.handleUpdate = this.handleUpdate.bind(this);
         this.addStock = this.addStock.bind(this);
-        this.keyPress = this.keyPress.bind(this);
+        this.keyPress = this.keyPress.bind(this);     
     }
     handleUpdate(event) {
         this.setState({
@@ -49,11 +51,26 @@ class AddStock extends Component {
             }
             /> &nbsp; &nbsp; <
             button type = "button"
-            className = "btn btn-info"
+            className = "btn"
             onClick = {
                 this.addStock
-            } > Add < /button> <
-            /div>
+            } > Add < /button> 
+            <br />
+            <
+                AutoInput autoInput = {
+                    this.autoInput
+                }
+                 onChange = {
+                this.handleUpdate
+            }
+            value = {
+                this.state.stockName
+            }
+            onKeyDown = {
+                this.keyPress
+            }
+                /> 
+            </div>
         );
     }
 }

@@ -4,80 +4,117 @@ import React, {
 import './quick-stock-list.css';
 import QuickStock from './quick-stock';
 import AddStock from './add-stock';
-import axios from 'axios';
+
 const API = 'https://api.robinhood.com/quotes/?symbols=';
+let stocksList = JSON.parse(localStorage.getItem("stockList"));
 
 
 class QuickStockList extends Component {
     constructor(props) {
-        let stocksList = JSON.parse(localStorage.getItem("stockList"));
+        
         if (stocksList == null) {
             stocksList = ["ATVI", "SPWR", "TEAM"];
             localStorage.setItem("stockList", JSON.stringify(stocksList));
         }
-        axios.get('https://api.robinhood.com/quotes/?symbols='+stocksList)
-            .then(function(response) {
-                console.log(response);});
-
+        
         super(props);
         this.state = {
             stocks: stocksList,
+            stockData: [],
+            isLoading: false,
+             error: null,
             time: ''
         };
         this.addStock = this.addStock.bind(this);
         this.removeStock = this.removeStock.bind(this);
     }
+    componentDidMount(){
+    	 this.setState({ isLoading: true });
+    	 fetch(API + stocksList)
+      .then(response => response.json())
+      .then(data => this.setState({ stockData: data.results, isLoading: false }));
+
+    }
     componentDidUpdate() {
         localStorage.setItem("stockList", JSON.stringify(this.state.stocks));
     }
     render() {
+    	const { isLoading } = this.state;
+	   if (isLoading) {
+      return <div className = "QuickStockList">Loading, please be patient</div>;
+    }
         return ( <
                 div className = "QuickStockList" >
                 <
                 AddStock addStock = {
                     this.addStock
                 }
-                /> {
+                /> 
+<table className="table table-striped">
+  <thead>
+    <tr><th scope="col">Symbol</th>
+      <th scope="col">Price</th>
+      <th scope="col">Change</th>
+      <th scope="col">Remove</th></tr>
+    </thead><tbody>
+                {
                 this.renderStocks()
             }
-
+            </tbody>
+</table>
             <
             /div>
     );
 }
 addStock(newStock) {
-	if (!this.state.stocks.includes(newStock.toUpperCase())){
-    this.setState({
-        stocks: [...this.state.stocks, newStock.toUpperCase()]
-    });
-}
-else
-{
-	console.log('hey dont do that');
-}
+    if (!this.state.stocks.includes(newStock.toUpperCase())) {
+        fetch(API + newStock.toUpperCase())
+            .then(response => response.json())
+            .then(data => {
+                var tempDataHolder = this.state.stockData.slice();
+                tempDataHolder.push(data.results[0]);
+                this.setState({
+                    stockData: tempDataHolder,
+                    isLoading: false,
+                    stocks: [...this.state.stocks, newStock.toUpperCase()]
+                })
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+
+    } else {
+        console.log('hey dont do that');
+    }
 }
 removeStock(removeStock) {
-    const filteredStocks = this.state.stocks.filter(name => {
+    
+    let filteredStocks = this.state.stockData.filter(function(item){
+   return item.symbol !==removeStock;
+});
+   let permList = this.state.stocks.filter(name => {
         return name !== removeStock;
     });
     this.setState({
-        stocks: filteredStocks
+        stockData: filteredStocks,
+        stocks: permList
     });
 
 }
 
 
 renderStocks() {
-    return this.state.stocks.map(name => ( <
+    return this.state.stockData.map(symbol => ( <
         QuickStock key = {
-            name
+            symbol.symbol
         }
-        name = {
-            name
+        stockData = {
+            symbol
         }
         removeStock = {
             this.removeStock
         }
+        
         />
     ));
 }

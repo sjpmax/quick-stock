@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@vtex/react-csv-parse": "^2.0.0-beta.1",
     "edit-json-file": "^1.0.8",
     "jquery": "^3.3.1",
     "popper": "^1.0.1",
     "react": "^16.2.0",
+    "react-autocomplete": "^1.8.1",
     "react-dom": "^16.2.0",
     "react-scripts": "1.0.17",
     "write-json-file": "^2.3.0"
