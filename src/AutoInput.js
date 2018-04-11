@@ -1,5 +1,4 @@
 import React, {
-    Component
 } from 'react';
 import ReactAutocomplete from 'react-autocomplete';
 import availStocks from './nasdaqList.json';
@@ -9,10 +8,21 @@ class AutoInput extends React.Component {
     super(props)
     this.state = {
       value: '',
+       stockName: ''
     }
+        this.onChangeEx = this.onChangeEx.bind(this);   
+
+  }
+  onChangeEx(e){
+    if(e.target){
+    this.setState({ value: e.target.value, stockName:e.target.value  })
+    this.props.handleUpdate(e.target.value )}
+    else
+      { this.setState({ value: e, stockName:e  })
+    this.props.handleUpdate(e)}
   }
 
-  render() {
+ render() {
     return (
       <ReactAutocomplete
         items = {availStocks}
@@ -23,13 +33,16 @@ class AutoInput extends React.Component {
             key={item.id}
             style={{ backgroundColor: highlighted ? '#eee' : 'transparent'}}
           >
-            {item.secName}
+            {item.secName}            
           </div>
+          
         }
         value={this.state.value}
-        onChange={e => this.setState({ value: e.target.value })}
-        onSelect={value => this.setState({ value })}
+        onChange={e => this.onChangeEx(e)}
+        onSelect={value => this.onChangeEx(value)}  
       />
+
+
     )
   }
 }

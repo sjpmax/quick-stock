@@ -13,11 +13,21 @@ class AddStock extends Component {
         };
         this.handleUpdate = this.handleUpdate.bind(this);
         this.addStock = this.addStock.bind(this);
-        this.keyPress = this.keyPress.bind(this);     
+        this.keyPress = this.keyPress.bind(this);
+        this.textInput = null;
+
+        this.setTextInputRef = element => {
+          this.textInput = element;
+        };
+        this.clearTextInput = () => {
+          // Clears text box.
+          if (this.textInput) this.textInput.setState({ value: '', stockName: '' })
+        };
     }
-    handleUpdate(event) {
+    
+    handleUpdate(selectStockName) {
         this.setState({
-            stockName: event.target.value
+            stockName: selectStockName
         });
     }
     addStock() {
@@ -26,6 +36,7 @@ class AddStock extends Component {
             stockName: ''
         });
     }
+    
     keyPress(e) {
         if (e.keyCode === 13) {
             //why isn't this.addStock working? it just passes by the code.
@@ -38,38 +49,22 @@ class AddStock extends Component {
     render() {
         return ( <
             div className = "AddStock" >
-            <
-            input type = "text"
-            onChange = {
-                this.handleUpdate
-            }
-            value = {
-                this.state.stockName
-            }
-            onKeyDown = {
-                this.keyPress
-            }
-            /> &nbsp; &nbsp; <
-            button type = "button"
-            className = "btn"
-            onClick = {
-                this.addStock
-            } > Add < /button> 
-            <br />
-            <
-                AutoInput autoInput = {
+           <AutoInput autoInput = {
                     this.autoInput
                 }
-                 onChange = {
-                this.handleUpdate
-            }
-            value = {
+            handleUpdate = {this.handleUpdate}
+stockName  = {
                 this.state.stockName
             }
-            onKeyDown = {
-                this.keyPress
-            }
-                /> 
+             ref={this.setTextInputRef}
+                />
+             &nbsp; &nbsp; <
+            button type = "button"
+            className = "btn"
+            onClick={()=>{this.addStock();this.clearTextInput();}}
+             > Add < /button> 
+            <br />
+             
             </div>
         );
     }
