@@ -28,10 +28,22 @@ class AutoInput extends React.Component {
         items = {availStocks}
         shouldItemRender={(item, value) => item.secName.toLowerCase().indexOf(value.toLowerCase()) > -1}
         getItemValue={item => item.Symbol}
+         key={item => item.id + item.Symbol}    
+        menuStyle={{
+borderRadius: '3px',
+boxShadow: '0 2px 12px rgba(0, 0, 0, 0.1)',
+background: 'rgba(255, 255, 255, 1)',
+padding: '2px 0 0 7px',
+fontSize: '90%',
+position: 'fixed',
+overflow: 'auto',
+maxHeight: '50%', // TODO: don't cheat, let it flow to the bottom
+zIndex: '998',
+  textAlign: 'left',
+}}
         renderItem={(item, highlighted) =>
           <div
             key={item.id}
-            style={{ backgroundColor: highlighted ? '#eee' : 'transparent'}}
           >
             {item.secName}            
           </div>
@@ -39,7 +51,7 @@ class AutoInput extends React.Component {
         }
         value={this.state.value}
         onChange={e => this.onChangeEx(e)}
-        onSelect={value => this.onChangeEx(value)}  
+        onSelect={value => this.onChangeEx(value)} 
       />
 
 

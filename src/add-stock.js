@@ -62,6 +62,7 @@ stockName  = {
             button type = "button"
             className = "btn"
             onClick={()=>{this.addStock();this.clearTextInput();}}
+
              > Add < /button> 
             <br />
              
