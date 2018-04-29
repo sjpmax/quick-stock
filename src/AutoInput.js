@@ -42,8 +42,7 @@ zIndex: '998',
   textAlign: 'left',
 }}
         renderItem={(item, highlighted) =>
-          <div
-            key={item.id}
+          <div key={item.Symbol}
           >
             {item.secName}            
           </div>

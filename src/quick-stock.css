@@ -7,5 +7,5 @@
   padding: 20px;
 }
 
-.goodGreen{color: #228B22;}
-.badRed{color: #F00;}
+.goodGreen{color: #228B22; font-weight: bold;}
+.badRed{color: #F00; font-weight: bold;}

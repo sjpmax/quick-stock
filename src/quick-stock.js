@@ -59,7 +59,9 @@ class QuickStock extends Component {
                 this.state.stockStyle
             }>  {
                 this.state.stockChange
-            }</span> ({this.state.percentageChange}%)</td><td> <
+            }</span> ({this.state.percentageChange}%)</td>
+            
+            <td> <
             button type = "button"
             aria-label = "Close"
             className = "close "

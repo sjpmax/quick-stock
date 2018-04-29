@@ -50,7 +50,7 @@ class QuickStockList extends Component {
                     this.addStock
                 }
                 /> 
-<table className="table table-striped">
+<table className="table table-striped table-sm">
   <thead>
     <tr><th scope="col">Symbol</th>
       <th scope="col">Price</th>
