@@ -2,25 +2,36 @@ import React, {
     Component
 } from 'react';
 import './quick-stock.css';
-
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import '../node_modules/bootstrap/dist/js/bootstrap.min.js';
 import $ from 'jquery';
+window.jQuery = $;
+window.$ = $;
+global.jQuery = $;
+
+
+//import '../node_modules/bootstrap/dist/js/bootstrap.min.js';
+const bootstrap = require('bootstrap');
+console.log(bootstrap);
 
 
 
 class QuickStock extends Component {
     constructor(props) {
         super(props);
-        var getTime = new Date(Date.parse(props.stockData.updated_at));
+        var getTime = new Date(props.stockData["quote"].iexLastUpdated);
+        var hours = getTime.getHours();
+        // Minutes part from the timestamp
+        var minutes = "0" + getTime.getMinutes();
+        // Seconds part from the timestamp
+        var seconds = "0" + getTime.getSeconds();
+            var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
         var thisStyle = '';
-        if (props.stockData.last_trade_price >= props.stockData.previous_close)
+        if (props.stockData["quote"].latestPrice >= props.stockData["quote"].previousClose) 
             thisStyle = "goodGreen";
         else
             thisStyle = "badRed";
-        var dayChange = props.stockData.last_trade_price-props.stockData.previous_close;
+        var dayChange = props.stockData["quote"].latestPrice-props.stockData["quote"].previousClose;
         dayChange = dayChange.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-        var pChange = ((dayChange/props.stockData.previous_close)*100).toFixed(2);
+        var pChange = ((dayChange/props.stockData["quote"].previousClose)*100).toFixed(2);
         this.state = {
             stockPrice: "loading",
             getTime: getTime,
@@ -38,22 +49,22 @@ class QuickStock extends Component {
     }
 
     removeStock() {
-        this.props.removeStock(this.props.stockData.symbol);
+        this.props.removeStock(this.props.stockData["quote"].symbol);
     }
     render() {
         return (<tr>< th scope="row"> <a data-toggle = "popover"
             data-trigger = "hover"
             title = {
-                this.props.stockData.symbol
+                this.props.stockData["quote"].symbol
             }
             data-content = {
                 "Last update at: " + this.state.getTime
-            } > {
-                this.props.stockData.symbol
+            } href='#'> {
+                this.props.stockData["quote"].symbol
             }:
             </a></th>
             <td> {
-                this.props.stockData.last_trade_price
+                this.props.stockData["quote"].latestPrice
             } </td>
             <td> <span className={
                 this.state.stockStyle
