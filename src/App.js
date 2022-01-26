@@ -6,6 +6,7 @@ const App = () => {
     <div className="App">
       <QuickStockList />
     </div>
+    
   );
 };
 

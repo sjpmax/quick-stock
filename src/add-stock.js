@@ -64,7 +64,7 @@ stockName  = {
             onClick={()=>{this.addStock();this.clearTextInput();}}
 
              > Add < /button> 
-            <br />
+            
              
             </div>
         );

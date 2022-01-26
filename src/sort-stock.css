@@ -1,0 +1,21 @@
+#sortStocks{
+    margin: 2px;
+    padding: 2px;
+    border: 1px solid #001A47;
+    background: #CEEAF3;
+    padding-top: 10px;
+    text-align: center;
+    height: 44px;
+    width: 53%;
+    float: left;
+}
+
+#sortStocks button {color: #fff;
+    background-color: #179932;
+    border-color: #17a2b8;}
+#sortList{
+	width: 100%	;
+}
+#errorMSG{
+	color: red;
+}

@@ -1,9 +1,15 @@
 .QuickStockList {
 	width: 370px;
-  margin: 20px;
-  padding: 20px;
   border: 2px solid #100B26;
-  background: #EFEFEF;
+  background: #212529;
 
   font-size: 13px;
+}
+
+.topSplitter{
+	overflow: hidden;
+}
+table tr td .close, button.close {
+    color: #aaa !important; 
+    opacity: 1;
 }
